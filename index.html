@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ontboom | Quotes & Invoices</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div><h1>ONTBOOM</h1><p>Treefelling • Quotations & Invoices</p></div><button id="newDoc" class="secondary">New</button></header>
+<main>
+<section class="card no-print">
+<div class="tabs"><button class="tab active" data-type="Quotation">Quotation</button><button class="tab" data-type="Invoice">Invoice</button></div>
+<div class="grid">
+<label>Document number<input id="docNo"></label><label>Date<input id="date" type="date"></label>
+<label>Customer name<input id="customer"></label><label>Cell / WhatsApp<input id="customerCell" inputmode="tel"></label>
+<label class="wide">Customer address<textarea id="customerAddress" rows="2"></textarea></label>
+</div>
+<h3>Items</h3><div id="items"></div>
+<button id="addItem" class="secondary">+ Add item</button>
+<div class="grid notes"><label class="wide">Notes / scope<textarea id="notes" rows="3" placeholder="Work description, exclusions, etc."></textarea></label>
+<label>Valid / due (days)<input id="days" type="number" value="7" min="0"></label></div>
+<div class="actions"><button id="save">Save</button><button id="print" class="secondary">Print / Save PDF</button></div>
+</section>
+<section id="document" class="paper">
+<div class="doc-head"><div><h2>ONTBOOM</h2><strong>Treefelling</strong><p>Zwavelpoort<br>065 225 8354<br>frik.ontboom@gmail.com</p></div><div class="doc-title"><h2 id="pType">QUOTATION</h2><p><b>No:</b> <span id="pNo"></span><br><b>Date:</b> <span id="pDate"></span></p></div></div>
+<hr><div class="client"><b>Customer</b><p id="pCustomer"></p></div>
+<table><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="pItems"></tbody></table>
+<div class="total"><span>Total</span><strong id="pTotal">R 0.00</strong></div>
+<div class="doc-notes"><b>Notes / Scope</b><p id="pNotes">—</p></div>
+<div class="terms"><p id="pTerms"></p><p><b>VAT:</b> Not VAT registered</p><p><b>Bank:</b> Discovery Bank<br><b>Account name:</b> Frik Swanepoel<br><b>Account number:</b> 4052 6600 4827 7925</p></div>
+<footer>Thank you for choosing Ontboom.</footer>
+</section>
+<section class="card no-print"><h3>Saved documents</h3><div id="saved"></div></section>
+</main>
+<script src="app.js"></script>
+</body></html>
