@@ -18,20 +18,21 @@
 </div>
 <h3>Items</h3><div id="items"></div>
 <button id="addItem" class="secondary">+ Add item</button>
-<div class="grid notes"><label class="wide">Notes / scope<textarea id="notes" rows="3" placeholder="Work description, exclusions, etc."></textarea></label>
-<label>Valid / due (days)<input id="days" type="number" value="7" min="0"></label></div>
+<div class="grid notes"><label class="wide">Notes / scope<textarea id="notes" rows="3" placeholder="Work description, exclusions, etc."></textarea></label><label>Valid / due (days)<input id="days" type="number" value="7" min="0"></label></div>
 <div class="photo-tools"><h3>Job photos</h3><label>Add photos<input id="photoUpload" type="file" accept="image/*" multiple></label><label class="photo-switch"><input id="includePhotos" type="checkbox"> Include photos in PDF / print</label><div id="photoPreview" class="photo-preview"></div></div>
 <div class="actions"><button id="save">Save</button><button id="print" class="secondary">Print / Save PDF</button></div>
 </section>
 <section id="document" class="paper">
-<div class="doc-head"><div><img id="pLogo" class="doc-logo" alt="Business logo"><div id="brandFallback"><h2>ONTBOOM</h2><strong>Treefelling</strong></div><p>Zwavelpoort<br>065 225 8354<br>frik.ontboom@gmail.com</p></div><div class="doc-title"><h2 id="pType">ESTIMATE</h2><p><b>No:</b> <span id="pNo"></span><br><b>Date:</b> <span id="pDate"></span></p></div></div>
-<hr><div class="client"><b>Customer</b><p id="pCustomer"></p></div>
-<table><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="pItems"></tbody></table>
-<div class="total"><span>Total</span><strong id="pTotal">R 0.00</strong></div>
-<div class="doc-notes"><b>Notes / Scope</b><p id="pNotes">—</p></div>
-<div id="pPhotoSection" class="print-photos"><h3>Job photos</h3><div id="pPhotos" class="photo-grid"></div></div>
-<div class="terms"><p id="pTerms"></p><p><b>VAT:</b> Not VAT registered</p></div>
-<footer>Thank you for choosing Ontboom.</footer>
+<div class="doc-accent"></div>
+<div class="doc-head"><div class="brand-block"><img id="pLogo" class="doc-logo" alt="Business logo"><div id="brandFallback"><h2>ONTBOOM</h2><strong>Tree-Felling & Pruning Services</strong></div><div class="business-details"><b>ONTBOOM</b><br>Tree-Felling & Pruning Services<br>Zwavelpoort, Pretoria<br>065 225 8354<br>frik.ontboom@gmail.com</div></div><div class="doc-title"><div id="pType" class="type-badge">ESTIMATE</div><p><b>Document No.</b><br><span id="pNo"></span></p><p><b>Date</b><br><span id="pDate"></span></p></div></div>
+<div class="client-box"><div class="section-label">Prepared for</div><p id="pCustomer"></p></div>
+<table class="doc-table"><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="pItems"></tbody></table>
+<div class="summary-row"><div class="vat-note">Not VAT registered</div><div class="total"><span>TOTAL</span><strong id="pTotal">R 0.00</strong></div></div>
+<div class="doc-notes"><div class="section-label">Notes / Scope of Work</div><p id="pNotes">—</p></div>
+<div id="pPhotoSection" class="print-photos"><div class="section-label">Job Photos</div><div id="pPhotos" class="photo-grid"></div></div>
+<div class="terms"><div class="section-label">Terms</div><p id="pTerms"></p><p>All work is subject to the agreed scope above. Any additional work requested may be quoted separately.</p></div>
+<div class="acceptance"><div><b>Customer acceptance</b><br><span>Signature: __________________________</span></div><div><b>Date</b><br><span>__________________</span></div></div>
+<footer><b>ONTBOOM</b> • Tree-Felling & Pruning Services • 065 225 8354<br><span>A cleaner, greener tomorrow.</span></footer>
 </section>
 <section class="card no-print"><h3>Saved documents</h3><div id="saved"></div></section>
 </main>
