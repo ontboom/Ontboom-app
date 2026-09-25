@@ -4,6 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ontboom | Estimates & Invoices</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <header><div><h1>ONTBOOM</h1><p>Treefelling • Estimates & Invoices</p></div><button id="newDoc" class="secondary">New</button></header>
@@ -11,30 +12,15 @@
 <section class="card no-print">
 <div class="logo-settings"><label>Business logo<input id="logoUpload" type="file" accept="image/*"></label><button id="removeLogo" class="secondary" type="button">Remove logo</button><small>Choose a logo from your phone. It will be used on printed Estimates and Invoices.</small></div>
 <div class="tabs"><button class="tab active" data-type="Estimate">Estimate</button><button class="tab" data-type="Invoice">Invoice</button></div>
-<div class="grid">
-<label>Document number<input id="docNo"></label><label>Date<input id="date" type="date"></label>
-<label>Customer name<input id="customer"></label><label>Cell / WhatsApp<input id="customerCell" inputmode="tel"></label>
-<label class="wide">Customer address<textarea id="customerAddress" rows="2"></textarea></label>
-</div>
-<h3>Items</h3><div id="items"></div>
-<button id="addItem" class="secondary">+ Add item</button>
+<div class="grid"><label>Document number<input id="docNo"></label><label>Date<input id="date" type="date"></label><label>Customer name<input id="customer"></label><label>Cell / WhatsApp<input id="customerCell" inputmode="tel"></label><label class="wide">Customer address<textarea id="customerAddress" rows="2"></textarea></label></div>
+<h3>Items</h3><div id="items"></div><button id="addItem" class="secondary">+ Add item</button>
 <div class="grid notes"><label class="wide">Notes / scope<textarea id="notes" rows="3" placeholder="Work description, exclusions, etc."></textarea></label><label>Valid / due (days)<input id="days" type="number" value="7" min="0"></label></div>
 <div class="photo-tools"><h3>Job photos</h3><label>Add photos<input id="photoUpload" type="file" accept="image/*" multiple></label><label class="photo-switch"><input id="includePhotos" type="checkbox"> Include photos in PDF / print</label><div id="photoPreview" class="photo-preview"></div></div>
-<div class="actions"><button id="save">Save</button><button id="print" class="secondary">Print / Save PDF</button></div>
+<div class="actions"><button id="save">Save</button><button id="send">Send Estimate</button><button id="print" class="secondary">Print / Save PDF</button></div>
 </section>
 <section id="document" class="paper">
-<div class="doc-accent"></div>
-<div class="doc-head"><div class="brand-block"><img id="pLogo" class="doc-logo" alt="Business logo"><div id="brandFallback"><h2>ONTBOOM</h2><strong>Tree-Felling & Pruning Services</strong></div><div class="business-details"><b>ONTBOOM</b><br>Tree-Felling & Pruning Services<br>Zwavelpoort, Pretoria<br>065 225 8354<br>frik.ontboom@gmail.com</div></div><div class="doc-title"><div id="pType" class="type-badge">ESTIMATE</div><p><b>Document No.</b><br><span id="pNo"></span></p><p><b>Date</b><br><span id="pDate"></span></p></div></div>
-<div class="client-box"><div class="section-label">Prepared for</div><p id="pCustomer"></p></div>
-<table class="doc-table"><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="pItems"></tbody></table>
-<div class="summary-row"><div class="vat-note">Not VAT registered</div><div class="total"><span>TOTAL</span><strong id="pTotal">R 0.00</strong></div></div>
-<div class="doc-notes"><div class="section-label">Notes / Scope of Work</div><p id="pNotes">—</p></div>
-<div id="pPhotoSection" class="print-photos"><div class="section-label">Job Photos</div><div id="pPhotos" class="photo-grid"></div></div>
-<div class="terms"><div class="section-label">Terms</div><p id="pTerms"></p><p>All work is subject to the agreed scope above. Any additional work requested may be quoted separately.</p></div>
-<div class="acceptance"><div><b>Customer acceptance</b><br><span>Signature: __________________________</span></div><div><b>Date</b><br><span>__________________</span></div></div>
-<footer><b>ONTBOOM</b> • Tree-Felling & Pruning Services • 065 225 8354<br><span>A cleaner, greener tomorrow.</span></footer>
+<div class="doc-accent"></div><div class="doc-head"><div class="brand-block"><img id="pLogo" class="doc-logo" alt="Business logo"><div id="brandFallback"><h2>ONTBOOM</h2><strong>Tree-Felling & Pruning Services</strong></div><div class="business-details"><b>ONTBOOM</b><br>Tree-Felling & Pruning Services<br>Zwavelpoort, Pretoria<br>065 225 8354<br>frik.ontboom@gmail.com</div></div><div class="doc-title"><div id="pType" class="type-badge">ESTIMATE</div><p><b>Document No.</b><br><span id="pNo"></span></p><p><b>Date</b><br><span id="pDate"></span></p></div></div>
+<div class="client-box"><div class="section-label">Prepared for</div><p id="pCustomer"></p></div><table class="doc-table"><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody id="pItems"></tbody></table><div class="summary-row"><div class="vat-note">Not VAT registered</div><div class="total"><span>TOTAL</span><strong id="pTotal">R 0.00</strong></div></div><div class="doc-notes"><div class="section-label">Notes / Scope of Work</div><p id="pNotes">—</p></div><div id="pPhotoSection" class="print-photos"><div class="section-label">Job Photos</div><div id="pPhotos" class="photo-grid"></div></div><div class="terms"><div class="section-label">Terms</div><p id="pTerms"></p><p>All work is subject to the agreed scope above. Any additional work requested may be quoted separately.</p></div><div class="acceptance"><div><b>Customer acceptance</b><br><span>Signature: __________________________</span></div><div><b>Date</b><br><span>__________________</span></div></div><footer><b>ONTBOOM</b> • Tree-Felling & Pruning Services • 065 225 8354<br><span>A cleaner, greener tomorrow.</span></footer>
 </section>
 <section class="card no-print"><h3>Saved documents</h3><div id="saved"></div></section>
-</main>
-<script src="app.js"></script>
-</body></html>
+</main><script src="app.js"></script></body></html>
