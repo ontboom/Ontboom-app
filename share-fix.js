@@ -1,51 +1,76 @@
-// Samsung/Android Web Share compatibility fix.
-// Share the PDF file by itself. Some Android browsers reject a Web Share
-// payload when files and text are supplied together.
-async function ontboomSharePdfOnly(){
+// Ontboom Android send flow.
+// First try Android's native file share. If Samsung Internet blocks PDF files,
+// save the professional PDF and immediately open WhatsApp with a short client message.
+// The user can attach the just-downloaded PDF from WhatsApp's document picker.
+
+function ontboomClientMessage(d){
+  return `Good day ${d.customer},\n\nPlease find attached your Ontboom ${d.type.toLowerCase()} ${d.no}.\n\nKind regards,\nFrik\nONTBOOM\n065 225 8354`;
+}
+
+function ontboomPhone(cell){
+  let n=String(cell||"").replace(/\D/g,"");
+  if(n.startsWith("0")) n="27"+n.slice(1);
+  return n;
+}
+
+function ontboomOpenWhatsApp(d){
+  const phone=ontboomPhone(d.cell);
+  const text=encodeURIComponent(ontboomClientMessage(d));
+  const url=phone
+    ? `https://wa.me/${phone}?text=${text}`
+    : `https://wa.me/?text=${text}`;
+  window.location.href=url;
+}
+
+function ontboomMarkSent(d){
+  if(d.type==="Estimate" && d.status==="Draft"){
+    $("estimateStatus").value="Sent";
+    const x=data(); x.status="Sent"; persist(x,false); render();
+  }
+  saveCustomer(d);
+  cloudChanged();
+}
+
+async function ontboomSendDocument(){
   const d=data();
   if(!d.customer){ alert("Enter the customer name first."); return; }
 
-  // The PDF is normally prepared in the background. Do not generate it after
-  // the tap, because Android requires navigator.share() to retain user activation.
+  // PDF must already exist before the share tap so Android keeps user activation.
   if(!preparedShare || preparedShare.key!==currentShareKey()){
     scheduleShare();
-    alert("Your PDF is being prepared. Please tap Send again in a moment.");
+    alert("Preparing your PDF. Tap Send again in a moment.");
     return;
   }
 
   const r=preparedShare;
-  if(!navigator.share){
-    downloadPdf(r.blob,r.filename);
-    alert("This browser cannot open Android sharing. The PDF was saved to Downloads.");
-    return;
+
+  // Preferred route: the same Android share chooser used by native invoice apps.
+  if(navigator.share){
+    try{
+      const payload={files:[r.file]};
+      if(!navigator.canShare || navigator.canShare(payload)){
+        await navigator.share(payload);
+        ontboomMarkSent(r.d);
+        return;
+      }
+    }catch(e){
+      if(e && e.name==="AbortError") return;
+      console.warn("Native PDF share unavailable; using WhatsApp fallback",e);
+    }
   }
 
-  try{
-    const filePayload={files:[r.file]};
-    if(navigator.canShare && !navigator.canShare(filePayload)){
-      downloadPdf(r.blob,r.filename);
-      alert("This browser cannot share PDF attachments. The PDF was saved to Downloads.");
-      return;
-    }
+  // Samsung Internet fallback. A normal website cannot manufacture Android's
+  // FileProvider URI, so it cannot force a downloaded file into WhatsApp.
+  // We therefore save the actual PDF, then open the correct client's WhatsApp chat.
+  downloadPdf(r.blob,r.filename);
+  ontboomMarkSent(r.d);
 
-    // Deliberately no text/title here: Samsung Internet can fail when a file
-    // and text are combined. Android/WhatsApp will show the PDF filename.
-    await navigator.share(filePayload);
-
-    if(r.d.type==="Estimate" && r.d.status==="Draft"){
-      $("estimateStatus").value="Sent";
-      const x=data(); x.status="Sent"; persist(x,false); render();
-    }
-    saveCustomer(r.d);
-    cloudChanged();
-  }catch(e){
-    if(e && e.name==="AbortError") return;
-    console.error("PDF-only share failed",e);
-    downloadPdf(r.blob,r.filename);
-    alert("Your browser blocked direct PDF sharing. The PDF was saved to Downloads.");
-  }
+  const go=confirm(
+    `The PDF has been saved as ${r.filename}.\n\n`+
+    `Tap OK to open WhatsApp for ${r.d.customer}. Then tap the paperclip → Document and select this PDF from Downloads.`
+  );
+  if(go) ontboomOpenWhatsApp(r.d);
 }
 
-// Replace the old handler after app.js has initialized it.
 const ontboomSendButton=document.getElementById("send");
-if(ontboomSendButton) ontboomSendButton.onclick=ontboomSharePdfOnly;
+if(ontboomSendButton) ontboomSendButton.onclick=ontboomSendDocument;
