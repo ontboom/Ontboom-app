@@ -1,0 +1,8 @@
+{
+  "appId": "za.co.ontboom.app",
+  "appName": "Ontboom",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  }
+}
