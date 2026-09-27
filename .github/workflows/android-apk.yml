@@ -10,31 +10,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
+
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
       - name: Prepare web app
         run: |
+          rm -rf www
           mkdir -p www
           find . -maxdepth 1 -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.svg' -o -name '*.ico' \) -exec cp {} www/ \;
           sed -i 's#</head>#<link rel="stylesheet" href="jobs.css"></head>#' www/index.html
           printf '\n<script src="jobs.js"></script>\n<script src="native-share.js"></script>\n' >> www/index.html
+
       - name: Create Android project
         run: npx cap add android
+
+      - name: Set stable Android version
+        run: |
+          sed -i "s/versionCode [0-9][0-9]*/versionCode 2/" android/app/build.gradle
+          sed -i 's/versionName "[^"]*"/versionName "1.1"/' android/app/build.gradle
+
       - name: Sync Capacitor
         run: npx cap sync android
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
+
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Ontboom-v1.1.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Ontboom-Android
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: Ontboom-Android-v1.1
+          path: Ontboom-v1.1.apk
           retention-days: 30
