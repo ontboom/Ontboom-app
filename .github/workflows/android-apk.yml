@@ -39,8 +39,8 @@ jobs:
 
       - name: Set Android version
         run: |
-          sed -i "s/versionCode [0-9][0-9]*/versionCode 18/" android/app/build.gradle
-          sed -i 's/versionName "[^"]*"/versionName "1.8"/' android/app/build.gradle
+          sed -i "s/versionCode [0-9][0-9]*/versionCode 19/" android/app/build.gradle
+          sed -i 's/versionName "[^"]*"/versionName "1.9"/' android/app/build.gradle
 
       - name: Build fresh debug APK
         working-directory: android
@@ -53,11 +53,11 @@ jobs:
           $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/apksigner verify --verbose android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Rename APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk Ontboom-v1.8.apk
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Ontboom-v1.9.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Ontboom-Android-v1.8
-          path: Ontboom-v1.8.apk
+          name: Ontboom-Android-v1.9
+          path: Ontboom-v1.9.apk
           retention-days: 30
