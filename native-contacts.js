@@ -9,13 +9,10 @@
 
   function getContactsPlugin() {
     if (!cap) return null;
-    // Capacitor 8 plugins should be obtained through registerPlugin. The
-    // official @capacitor/contacts native plugin is registered as Contacts.
     if (typeof cap.registerPlugin === 'function') {
       try { return cap.registerPlugin('Contacts'); } catch (_) {}
     }
-    // Compatibility fallback for older Capacitor bridges.
-    return cap.Plugins && (cap.Plugins.Contacts || cap.Plugins.CapacitorContacts);
+    return cap.Plugins && cap.Plugins.Contacts;
   }
 
   function applyContact(c) {
@@ -45,24 +42,10 @@
       throw new Error('Contacts native plugin bridge unavailable');
     }
 
-    // Request read access first. This allows the selected contact to return
-    // both its display name and phone number on current Android versions.
-    if (typeof Contacts.checkPermissions === 'function' && typeof Contacts.requestPermissions === 'function') {
-      const status = await Contacts.checkPermissions();
-      if (status && status.readContacts !== 'granted' && status.readContacts !== 'limited') {
-        const granted = await Contacts.requestPermissions({ permissions:['readContacts'] });
-        if (granted && granted.readContacts !== 'granted' && granted.readContacts !== 'limited') {
-          throw new Error('Contacts permission denied');
-        }
-      }
-    }
-
-    const picked = await Contacts.pickContact({
-      fields:['displayName','fullName','givenName','familyName','phoneNumbers'],
-      multiple:false
-    });
-    const c = picked && ((picked.contacts && picked.contacts[0]) || picked.contact || picked);
-    applyContact(c);
+    // Official @capacitor/contacts handles Android READ_CONTACTS permission
+    // internally. pickContact takes no arguments and resolves to one Contact.
+    const picked = await Contacts.pickContact();
+    applyContact(picked);
   }
 
   async function pickWebContact() {
@@ -84,9 +67,10 @@
       if (typeof scheduleShare === 'function') scheduleShare();
     } catch (e) {
       const msg = String(e?.message || e || '');
-      if (!/cancel/i.test(msg)) {
+      const code = String(e?.code || '');
+      if (!/cancel/i.test(msg) && code !== 'OS-PLUG-CONT-0006') {
         console.error('Ontboom contact picker failed', e);
-        alert(/permission denied/i.test(msg)
+        alert(code === 'OS-PLUG-CONT-0020' || /permission denied/i.test(msg)
           ? 'Contacts permission is required. Please allow Contacts access for Ontboom.'
           : 'Could not open Contacts. Please send a screenshot of this message if it happens again.');
       }
