@@ -1,132 +1,29 @@
 (function(){
-  'use strict';
-
-  const money=n=>'R '+(Number(n)||0).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2});
-
-  function installStyles(){
-    if(document.getElementById('ontboomTotalsStyles')) return;
-    const style=document.createElement('style');
-    style.id='ontboomTotalsStyles';
-    style.textContent=`
-      #items .item .item-live-amount{
-        grid-column:1/-1 !important;
-        display:flex !important;
-        justify-content:space-between !important;
-        align-items:center !important;
-        min-height:46px !important;
-        margin-top:2px !important;
-        padding:10px 12px !important;
-        border:1px solid #cbd5cf !important;
-        border-radius:9px !important;
-        background:#fff !important;
-        color:#173c2a !important;
-        font-size:15px !important;
-        font-weight:700 !important;
-        box-sizing:border-box !important;
-      }
-      #items .item .item-live-amount strong{font-size:17px !important;}
-      #liveEstimateTotal{
-        display:flex !important;
-        justify-content:space-between !important;
-        align-items:center !important;
-        width:100% !important;
-        margin:14px 0 18px !important;
-        padding:16px 18px !important;
-        border:2px solid #9db5aa !important;
-        border-radius:12px !important;
-        background:#eef4f1 !important;
-        color:#173c31 !important;
-        font-size:18px !important;
-        font-weight:800 !important;
-        box-sizing:border-box !important;
-      }
-      #liveEstimateTotal strong{font-size:22px !important;color:#173c2a !important;}
-      @media(max-width:650px){
-        #items .item .item-live-amount{grid-column:1/-1 !important;grid-row:auto !important;}
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  function rows(){
-    const root=document.getElementById('items');
-    return root?Array.from(root.querySelectorAll(':scope > .item')):[];
-  }
-
-  function ensureAmount(row){
-    let el=row.querySelector('.item-live-amount');
-    if(!el){
-      el=document.createElement('div');
-      el.className='item-live-amount';
-      el.innerHTML='<span>Amount</span><strong>R 0.00</strong>';
-      row.appendChild(el);
-    }
-    return el;
-  }
-
-  function ensureTotal(){
-    const add=document.getElementById('addItem');
-    if(!add) return null;
-    let box=document.getElementById('liveEstimateTotal');
-    if(!box){
-      box=document.createElement('div');
-      box.id='liveEstimateTotal';
-      box.innerHTML='<span>Estimate Total</span><strong>R 0.00</strong>';
-      add.insertAdjacentElement('afterend',box);
-    }
-    return box;
-  }
-
-  function update(){
-    installStyles();
-    let total=0;
-    rows().forEach(row=>{
-      const qty=Number(row.querySelector('.qty')?.value)||0;
-      const rate=Number(row.querySelector('.rate')?.value)||0;
-      const amount=qty*rate;
-      total+=amount;
-      const el=ensureAmount(row);
-      const value=el.querySelector('strong');
-      if(value) value.textContent=money(amount);
-    });
-    const totalBox=ensureTotal();
-    if(totalBox){
-      const value=totalBox.querySelector('strong');
-      if(value) value.textContent=money(total);
-      const label=totalBox.querySelector('span');
-      if(label) label.textContent=(window.type==='Invoice'?'Invoice Total':'Estimate Total');
-    }
-  }
-
-  let queued=false;
-  function queue(){
-    if(queued) return;
-    queued=true;
-    requestAnimationFrame(()=>{queued=false;update();});
-  }
-
-  function start(){
-    installStyles();
-    update();
-    const root=document.getElementById('items');
-    if(root){
-      new MutationObserver(mutations=>{
-        if(mutations.some(m=>Array.from(m.addedNodes).some(n=>n.nodeType===1&&n.classList?.contains('item'))||Array.from(m.removedNodes).some(n=>n.nodeType===1&&n.classList?.contains('item')))) queue();
-      }).observe(root,{childList:true});
-    }
-  }
-
-  document.addEventListener('input',e=>{
-    if(e.target?.matches?.('#items .qty, #items .rate')) queue();
-  },true);
-  document.addEventListener('change',e=>{
-    if(e.target?.matches?.('#items .qty, #items .rate')) queue();
-  },true);
-  document.addEventListener('click',e=>{
-    if(e.target?.closest?.('#addItem, #items .remove')) setTimeout(update,0);
-  },true);
-
-  window.ontboomUpdateTotals=update;
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start,{once:true});
-  else start();
+'use strict';
+function money(n){n=Number(n)||0;return 'R '+n.toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function installStyles(){
+ if(document.getElementById('ontboomTotalsStyles'))return;
+ var s=document.createElement('style');s.id='ontboomTotalsStyles';
+ s.textContent='#items .item .item-live-amount{grid-column:1/-1!important;display:flex!important;justify-content:space-between!important;align-items:center!important;min-height:46px!important;margin-top:4px!important;padding:10px 12px!important;border:1px solid #9db5aa!important;border-radius:9px!important;background:#eef4f1!important;color:#173c2a!important;font-size:15px!important;font-weight:700!important;box-sizing:border-box!important}#items .item .item-live-amount strong{font-size:18px!important}#liveEstimateTotal{display:flex!important;justify-content:space-between!important;align-items:center!important;width:100%!important;margin:14px 0 18px!important;padding:16px 18px!important;border:2px solid #173c2a!important;border-radius:12px!important;background:#eef4f1!important;color:#173c2a!important;font-size:18px!important;font-weight:800!important;box-sizing:border-box!important}#liveEstimateTotal strong{font-size:22px!important;color:#173c2a!important}@media(max-width:650px){#items .item .item-live-amount{grid-column:1/-1!important;grid-row:auto!important}}';
+ document.head.appendChild(s);
+}
+function update(){
+ installStyles();
+ var root=document.getElementById('items'),add=document.getElementById('addItem');
+ if(!root||!add)return;
+ var rows=root.getElementsByClassName('item'),total=0;
+ for(var i=0;i<rows.length;i++){
+  var row=rows[i],q=row.querySelector('.qty'),r=row.querySelector('.rate');
+  var amount=(Number(q&&q.value)||0)*(Number(r&&r.value)||0);total+=amount;
+  var box=row.querySelector('.item-live-amount');
+  if(!box){box=document.createElement('div');box.className='item-live-amount';box.innerHTML='<span>Amount</span><strong>R 0.00</strong>';row.appendChild(box);}
+  box.getElementsByTagName('strong')[0].textContent=money(amount);
+ }
+ var t=document.getElementById('liveEstimateTotal');
+ if(!t){t=document.createElement('div');t.id='liveEstimateTotal';t.innerHTML='<span>Estimate Total</span><strong>R 0.00</strong>';add.parentNode.insertBefore(t,add.nextSibling);}
+ t.getElementsByTagName('strong')[0].textContent=money(total);
+}
+function start(){installStyles();update();setInterval(update,250);document.addEventListener('input',update,true);document.addEventListener('change',update,true);document.addEventListener('click',function(){setTimeout(update,0);},true);}
+window.ontboomUpdateTotals=update;
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
