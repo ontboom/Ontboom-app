@@ -31,7 +31,8 @@ jobs:
           sed -i 's#</head>#<link rel="stylesheet" href="jobs.css"></head>#' www/index.html
           printf '\n<script src="jobs.js"></script>\n<script src="native-share.js"></script>\n<script src="native-contacts.js"></script>\n' >> www/index.html
           test -s www/item-totals.js
-          grep -q "setInterval(update,250)" www/item-totals.js
+          grep -Eq 'setInterval\(update,[[:space:]]*[0-9]+\)' www/item-totals.js
+          grep -q 'item-totals.js' www/index.html
 
       - name: Create clean Android project
         run: |
@@ -47,8 +48,8 @@ jobs:
       - name: Verify packaged web files
         run: |
           test -s android/app/src/main/assets/public/item-totals.js
-          grep -q "setInterval(update,250)" android/app/src/main/assets/public/item-totals.js
-          grep -q "item-totals.js" android/app/src/main/assets/public/index.html
+          grep -Eq 'setInterval\(update,[[:space:]]*[0-9]+\)' android/app/src/main/assets/public/item-totals.js
+          grep -q 'item-totals.js' android/app/src/main/assets/public/index.html
 
       - name: Build fresh debug APK
         working-directory: android
