@@ -48,3 +48,18 @@
  .doc-table th:first-child,.doc-table td:first-child{width:55%}
  .doc-table th,.doc-table td{padding:8px 3px}
 }
+
+/* Final header alignment and setup visibility */
+.setup-preview{padding:12px;border:1px dashed #9daf9f;border-radius:9px;background:#fff;text-align:center;font-size:12px;line-height:1.45}
+@media(max-width:650px){
+ .doc-head{grid-template-columns:minmax(0,62%) minmax(0,38%);position:relative}
+ .brand-block{padding-right:8px}
+ .doc-title{padding:0!important;text-align:right;display:flex;flex-direction:column;align-items:flex-end}
+ .doc-meta{margin-top:168px;width:max-content;max-width:100%;text-align:left;gap:12px}
+ .doc-title p{font-size:10px;line-height:1.35}
+ .type-badge{right:18px;top:24px}
+}
+@media(min-width:651px){
+ .doc-title{padding-top:118px;text-align:right}
+ .doc-meta{display:inline-grid;text-align:left}
+}
