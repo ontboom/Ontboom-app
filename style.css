@@ -128,3 +128,19 @@
  .paper .doc-title{width:145px;justify-self:end}
  .paper .doc-meta{width:145px;max-width:145px;margin:118px 0 0 auto!important;transform:translateX(0);text-align:left}
 }
+
+/* 2026-09-29 business details + right-edge metadata */
+.setup-section-title{margin:6px 0 0;color:#173c2a;font-size:16px;border-bottom:1px solid #dbe3de;padding-bottom:8px}
+.business-details{margin-top:18px}
+@media(max-width:650px){
+ .paper .doc-head{grid-template-columns:minmax(0,1fr) 126px!important;column-gap:18px!important}
+ .paper .brand-block{padding-right:0!important}
+ .paper .business-details{margin-top:22px!important}
+ .paper .doc-title{width:126px!important;justify-self:end!important}
+ .paper .doc-meta{width:126px!important;max-width:126px!important;margin:118px 0 0 auto!important}
+ .paper .doc-title p{font-size:10px!important}
+}
+@media(min-width:651px){
+ .paper .doc-title{justify-self:end;width:190px}
+ .paper .doc-meta{width:190px;margin-left:auto}
+}
