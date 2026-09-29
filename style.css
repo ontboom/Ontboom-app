@@ -166,3 +166,20 @@
  .customer-details{font-size:9pt}
  .customer-row{grid-template-columns:32mm 1fr;gap:3mm}
 }
+
+
+/* 2026-09-30 compact photos + final phone document alignment */
+.photo-grid img{cursor:pointer}
+@media(max-width:650px){
+ .paper .doc-head{grid-template-columns:minmax(0,1fr) 116px!important;column-gap:12px!important}
+ .paper .doc-title{width:116px!important;justify-self:end!important}
+ .paper .doc-meta{width:116px!important;max-width:116px!important;margin:124px 0 0 auto!important}
+ .paper .customer-row{grid-template-columns:72px minmax(0,1fr)!important;gap:8px!important}
+ .paper .photo-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
+ .paper .photo-grid img{height:70px!important;border-radius:4px!important}
+}
+@media print{
+ .paper .photo-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:2mm!important;break-inside:avoid;page-break-inside:avoid}
+ .paper .photo-grid img{height:25mm!important}
+ .paper .print-photos{break-inside:avoid;page-break-inside:avoid}
+}
