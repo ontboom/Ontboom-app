@@ -118,3 +118,13 @@
  .paper .doc-title{position:absolute;right:18px;top:0;width:145px}
  .paper .doc-meta{margin:118px 0 0!important;width:145px;max-width:145px}
 }
+
+/* 2026-09-29 business details + right edge metadata */
+.setup-section-title{margin:8px 0 0;color:#173c2a;font-size:16px;border-bottom:1px solid #dbe3de;padding-bottom:8px}
+@media(max-width:650px){
+ .paper .doc-head{grid-template-columns:minmax(0,1fr) 145px;column-gap:18px}
+ .paper .brand-block{padding-right:10px}
+ .paper .business-details{margin-top:18px}
+ .paper .doc-title{width:145px;justify-self:end}
+ .paper .doc-meta{width:145px;max-width:145px;margin:118px 0 0 auto!important;transform:translateX(0);text-align:left}
+}
