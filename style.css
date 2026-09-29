@@ -108,3 +108,13 @@
  .logo-settings input,.logo-settings select{font-size:16px;padding:11px 12px}
  .setup-preview{padding:14px 10px}
 }
+
+/* 2026-09-29 business detail controls and final mobile header alignment */
+.setup-section-title{margin:6px 0 -2px;color:#173c2a;font-size:17px}
+@media(max-width:650px){
+ .paper .doc-head{grid-template-columns:minmax(0,1fr) 145px;column-gap:18px}
+ .paper .brand-block{padding-right:12px}
+ .paper .business-details{margin-top:16px}
+ .paper .doc-title{position:absolute;right:18px;top:0;width:145px}
+ .paper .doc-meta{margin:118px 0 0!important;width:145px;max-width:145px}
+}
