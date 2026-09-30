@@ -228,3 +228,16 @@
    transform:none!important;
  }
 }
+
+
+/* 2026-09-30 corrected mobile metadata: level with business heading and right aligned */
+@media(max-width:650px){
+ .paper .doc-meta{
+   top:108px!important;
+   right:-6px!important;
+   width:116px!important;
+   max-width:116px!important;
+   margin:0!important;
+   text-align:left!important;
+ }
+}
