@@ -383,3 +383,17 @@
    border-top:3px solid #173c2a!important;
  }
 }
+
+
+/* 2026-09-30 high-value line item layout */
+@media(max-width:650px){
+ .paper .doc-table{font-size:8px!important}
+ .paper .doc-table th:first-child,.paper .doc-table td:first-child{width:48%!important}
+ .paper .doc-table th:nth-child(2),.paper .doc-table td:nth-child(2){width:8%!important;text-align:center!important}
+ .paper .doc-table th:nth-child(3),.paper .doc-table td:nth-child(3){width:19%!important;padding-left:8px!important;padding-right:4px!important}
+ .paper .doc-table th:nth-child(4),.paper .doc-table td:nth-child(4){width:25%!important;padding-left:8px!important;padding-right:5px!important}
+ .paper .doc-table tbody td:nth-child(3)::before{
+   content:"× ";
+   display:inline;
+ }
+}
