@@ -290,3 +290,28 @@
    margin-left:auto!important;
  }
 }
+
+
+/* 2026-09-30 compact Prepared For and force address to wrap cleanly */
+@media(max-width:650px){
+ .paper .client-box{
+   padding:14px 18px!important;
+ }
+ .paper .client-box .section-label{
+   margin-bottom:8px!important;
+ }
+ .paper .customer-details{
+   margin-top:6px!important;
+ }
+ .paper .customer-row{
+   grid-template-columns:82px minmax(0,1fr)!important;
+   gap:6px!important;
+   padding:2px 0!important;
+ }
+ .paper .customer-row span{
+   line-height:1.28!important;
+ }
+ .paper .customer-row:last-child span{
+   max-width:185px!important;
+ }
+}
