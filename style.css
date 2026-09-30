@@ -183,3 +183,15 @@
  .paper .photo-grid img{height:25mm!important}
  .paper .print-photos{break-inside:avoid;page-break-inside:avoid}
 }
+
+
+/* 2026-09-30 align document metadata with business name */
+@media(max-width:650px){
+ .paper .doc-meta{
+   margin:64px 0 0 auto!important;
+   width:116px!important;
+   max-width:116px!important;
+   justify-self:end!important;
+   text-align:left!important;
+ }
+}
