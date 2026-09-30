@@ -212,3 +212,19 @@
    text-align:left!important;
  }
 }
+
+
+/* 2026-09-30 final mobile metadata position: align with business name, far right */
+@media(max-width:650px){
+ .paper .doc-head{position:relative!important}
+ .paper .doc-meta{
+   position:absolute!important;
+   right:0!important;
+   top:174px!important;
+   margin:0!important;
+   width:116px!important;
+   max-width:116px!important;
+   text-align:left!important;
+   transform:none!important;
+ }
+}
