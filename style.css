@@ -195,3 +195,20 @@
    text-align:left!important;
  }
 }
+
+
+/* 2026-09-30 lock mobile metadata to far-right page margin */
+@media(max-width:650px){
+ .paper .doc-head{position:relative!important}
+ .paper .doc-title{position:static!important}
+ .paper .doc-meta{
+   position:absolute!important;
+   right:0!important;
+   top:214px!important;
+   margin:0!important;
+   width:116px!important;
+   max-width:116px!important;
+   transform:none!important;
+   text-align:left!important;
+ }
+}
