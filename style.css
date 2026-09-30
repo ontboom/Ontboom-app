@@ -262,3 +262,17 @@
    line-height:1.15!important;
  }
 }
+
+
+/* 2026-09-30 keep mobile business/meta row fixed whether logo exists or not */
+@media(max-width:650px){
+ .paper .doc-head{position:relative!important}
+ .paper .business-details{margin-top:22px!important}
+ .paper .doc-logo.has-logo + .business-details{margin-top:22px!important}
+ .paper .doc-meta{
+   top:auto!important;
+   bottom:18px!important;
+   right:-6px!important;
+   margin:0!important;
+ }
+}
