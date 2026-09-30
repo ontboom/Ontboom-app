@@ -241,3 +241,24 @@
    text-align:left!important;
  }
 }
+
+
+/* 2026-09-30 tighten metadata spacing and align with business ONTBOOM */
+@media(max-width:650px){
+ .paper .doc-meta{
+   top:142px!important;
+   right:-6px!important;
+ }
+ .paper .doc-meta > *{
+   margin-top:0!important;
+   margin-bottom:0!important;
+ }
+ .paper .doc-meta > * + *{
+   margin-top:10px!important;
+ }
+ .paper .doc-meta p{
+   margin-top:0!important;
+   margin-bottom:0!important;
+   line-height:1.15!important;
+ }
+}
