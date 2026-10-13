@@ -13,9 +13,14 @@
    if(!source)throw new Error('Estimate preview missing.');
    const clone=source.cloneNode(true);
    clone.removeAttribute('id');
-   clone.style.cssText='display:block!important;visibility:visible!important;opacity:1!important;position:fixed!important;left:0!important;top:0!important;width:190mm!important;max-width:190mm!important;height:auto!important;min-height:0!important;transform:none!important;z-index:-1!important;background:white!important;overflow:visible!important;';
+   // html2canvas can produce entirely white pages for fixed/negative-z-index sources.
+   // Render a normal-flow A4 document inside a visible temporary overlay instead.
+   const stage=document.createElement('div');
+   stage.style.cssText='position:fixed;inset:0;z-index:2147483647;background:#fff;overflow:auto;pointer-events:none;';
+   clone.style.cssText='display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;left:auto!important;top:auto!important;width:190mm!important;max-width:190mm!important;height:auto!important;min-height:0!important;transform:none!important;z-index:auto!important;background:white!important;overflow:visible!important;margin:0 auto!important;box-sizing:border-box!important;';
+   stage.appendChild(clone);
    clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-   document.body.appendChild(clone);
+   document.body.appendChild(stage);
    try{
      await Promise.all([...clone.querySelectorAll('img')].map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true});setTimeout(resolve,5000)})));
      await wait(150);
@@ -23,7 +28,7 @@
      const blob=await html2pdf().set(opt).from(clone).outputPdf('blob');
      if(!blob||blob.size<2500||blob.type!=='application/pdf')throw new Error('PDF output was incomplete.');
      return blob;
-   }finally{clone.remove()}
+   }finally{stage.remove()}
  }
  async function exportPdf(share){
    if(busy)return;
